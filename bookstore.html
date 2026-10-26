@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bookstore | School of Spiritual Growth</title>
+<meta name="description" content="Ebooks by Tayo Alofun on prayer, faith and spiritual growth. Buy securely and download instantly.">
+<meta name="theme-color" content="#050A14">
+<meta property="og:title" content="Bookstore | School of Spiritual Growth">
+<meta property="og:description" content="Ebooks by Tayo Alofun on prayer, faith and spiritual growth. Buy securely and download instantly.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23C21B1B'/%3E%3Cpath d='M16 24v-8m0 0c0-4 3-7 7-7 0 4-3 7-7 7Zm0 0c0-3-2.5-5.5-5.5-5.5 0 3 2.5 5.5 5.5 5.5Z' fill='none' stroke='%23F2EFE9' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400;1,600&display=swap">
+<link rel="stylesheet" href="/assets/sgc.css?v=1">
+<style>
+
+.hero{position:relative;overflow:hidden;isolation:isolate;padding-block:clamp(56px,8vw,104px)}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+.feature-cover{justify-self:center;width:min(300px,70vw);aspect-ratio:2/3;border-radius:4px 14px 14px 4px;overflow:hidden;box-shadow:-10px 30px 60px rgba(0,0,0,.55);transform:rotate(-4deg);transition:transform .7s var(--ease);background:var(--panel);position:relative}
+.feature-cover:hover{transform:rotate(0) translateY(-6px)}
+.feature-cover img{width:100%;height:100%;object-fit:cover}
+.feature-cover::after{content:"";position:absolute;inset:0 auto 0 0;width:14px;background:linear-gradient(90deg,rgba(255,255,255,.22),transparent)}
+.pricey{font-weight:300;font-size:44px;letter-spacing:-.04em;margin-top:18px}
+.ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.shelf{background:var(--paper);color:var(--ink);border-radius:40px 40px 0 0}
+.shelf .label{color:var(--crimson)} .shelf em.s{color:var(--crimson)}
+.shelf-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:16px}
+.books{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(18px,3vw,36px);margin-top:44px}
+@media (max-width:1000px){.books{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:680px){.books{grid-template-columns:repeat(2,1fr)}}
+.book{display:flex;flex-direction:column;gap:12px;min-width:0}
+.cover{position:relative;aspect-ratio:2/3;border-radius:3px 10px 10px 3px;overflow:hidden;background:#d9d3c7;box-shadow:6px 8px 20px rgba(5,10,20,.22);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.book:hover .cover{transform:translateY(-6px) rotate(-1deg);box-shadow:12px 18px 36px rgba(5,10,20,.3)}
+.cover img{width:100%;height:100%;object-fit:cover}
+.cover::after{content:"";position:absolute;inset:0 auto 0 0;width:10px;background:linear-gradient(90deg,rgba(255,255,255,.25),transparent)}
+.book h3{font-size:17px;font-weight:500;letter-spacing:-.01em;line-height:1.25}
+.book .row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.book .p{font-family:var(--f-mono);font-size:14px}
+.add{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;padding:9px 13px;border-radius:999px;border:1px solid rgba(5,10,20,.25);transition:background .2s,color .2s,border-color .2s}
+.add:hover{border-color:var(--crimson);color:var(--crimson)}
+.add.in-cart{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cartbtn{position:fixed;right:max(20px,env(safe-area-inset-right,0px));bottom:max(20px,env(safe-area-inset-bottom,0px));z-index:58;display:flex;align-items:center;gap:10px;padding:14px 20px;border-radius:999px;background:var(--crimson);color:var(--paper);font-family:var(--f-mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 14px 40px rgba(194,27,27,.45);transform:translateY(140%);transition:transform .5s var(--ease)}
+.cartbtn.show{transform:none}
+.cartbtn .n{background:var(--paper);color:var(--crimson);border-radius:999px;min-width:24px;height:24px;display:grid;place-items:center;font-weight:600}
+.cartbtn.bump{animation:bump .4s var(--ease)}
+@keyframes bump{50%{transform:scale(1.08)}}
+.scrim{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:71;width:min(420px,92vw);background:#0B111D;border-left:1px solid var(--line);transform:translateX(102%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{transform:none}
+.d-top{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid var(--line)}
+.d-top h2{font-size:22px;font-weight:400}
+.x{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center}
+.x svg{width:16px;height:16px}
+.items{flex:1;overflow-y:auto;padding:8px 22px}
+.it{display:grid;grid-template-columns:48px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.it img{width:48px;aspect-ratio:2/3;object-fit:cover;border-radius:2px 6px 6px 2px}
+.it b{display:block;font-weight:500;font-size:15px;line-height:1.3}
+.it small{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.it .rm{font-size:12px;color:var(--faint);text-decoration:underline}
+.empty{color:var(--muted);padding:28px 0;text-align:center}
+.d-foot{padding:20px 22px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.tot{display:flex;justify-content:space-between;align-items:baseline}
+.tot b{font-weight:300;font-size:30px;letter-spacing:-.03em}
+.d-foot .btn{width:100%}
+.d-foot .note{font-size:12.5px;color:var(--faint);text-align:center}
+.err{color:#FF8A80;font-size:14px}
+.faq{max-width:760px;margin:36px auto 0;display:flex;flex-direction:column;gap:10px}
+.faq details{border:1px solid var(--line);border-radius:16px;padding:0 20px}
+.faq summary{cursor:pointer;list-style:none;padding:18px 0;font-weight:500;font-size:17px;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--crimson-hot)}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{margin:0 0 18px;color:var(--muted)}
+.author{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
+.author .av{width:88px;height:88px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#E33A2C,#7a0f12);display:grid;place-items:center;font-family:var(--f-serif);font-style:italic;font-size:36px}
+.author p{color:var(--muted);margin:10px 0 0;max-width:62ch}
+@media (max-width:560px){.author{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<header class="hdr">
+ <div class="wrap">
+  <a href="/" class="logo" aria-label="School of Spiritual Growth home"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#C21B1B"/><path d="M16 24v-8m0 0c0-4 3-7 7-7 0 4-3 7-7 7Zm0 0c0-3-2.5-5.5-5.5-5.5 0 3 2.5 5.5 5.5 5.5Z" fill="none" stroke="#F2EFE9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Spiritual Growth</b><small>School of</small></span></a>
+  <nav class="nav" aria-label="Main">
+   <a class="lnk" href="/bootcamp.html">Bootcamp</a>
+   <a class="lnk" href="/bookstore.html" aria-current="page">Bookstore</a>
+   <a class="lnk" href="/through-the-bible.html">Bible App</a>
+   <a class="btn btn-red" href="/apply.html">Apply</a>
+  </nav>
+ </div>
+</header>
+<main>
+<section class="hero">
+ <div class="aurora" aria-hidden="true"><i></i><i></i></div>
+ <div class="wrap hero-grid">
+  <div>
+   <span class="label">The bookstore &middot; Ebooks</span>
+   <h1 class="display" style="font-size:clamp(40px,6.4vw,84px);margin-top:16px">Books for the <em class="s">daily walk.</em></h1>
+   <p class="lede">Bible studies, devotionals and teaching by Tayo Alofun. Buy once, download straight away, and read on any device.</p>
+   <div class="notice" data-canceled hidden style="margin-top:20px">Checkout was cancelled and you have not been charged. Your cart is still saved.</div>
+   <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--line)">
+    <span class="label">Featured</span>
+    <h2 style="font-size:28px;font-weight:400;letter-spacing:-.02em;margin-top:8px">Spiritual Growth Bootcamp Collections</h2>
+    <p style="color:var(--muted);margin:8px 0 0;max-width:52ch">A collection of five books used throughout the 90 days of the Spiritual Growth Bootcamp, to help you build a stronger, more consistent walk with Christ.</p>
+    <div class="pricey">$50.00</div>
+    <div class="ctas"><button class="btn btn-red" data-add="ebook-bootcamp-collections">Add to cart</button><a class="btn btn-line" href="#shelf">Browse all books</a></div>
+   </div>
+  </div>
+  <div class="feature-cover rv"><img src="https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-7.png" alt="Cover of Spiritual Growth Bootcamp Collections" width="300" height="450"></div>
+ </div>
+</section>
+
+<section class="sec shelf" id="shelf">
+ <div class="wrap">
+  <div class="shelf-head">
+   <div><span class="label">The collection</span><h2 class="big" style="margin-top:14px">Every <em class="s">title.</em></h2></div>
+   <p style="margin:0;color:rgba(5,10,20,.6);max-width:40ch">Prices in USD. Checkout can show your local currency.</p>
+  </div>
+  <div class="books" id="books"></div>
+ </div>
+</section>
+
+<section class="sec">
+ <div class="wrap narrow">
+  <div class="author rv">
+   <div class="av" aria-hidden="true">T</div>
+   <div>
+    <span class="label">About the author</span>
+    <h2 style="font-size:30px;font-weight:400;letter-spacing:-.02em;margin-top:8px">Tayo Alofun</h2>
+    <p>Tayo Alofun is the founder and lead instructor of Mustard Seed, a Christian community that helps believers grow in sound doctrine through devotionals, Bible studies, podcasts, prayer meetings and other faith-based resources.</p>
+    <p>With a heart for discipleship and a passion for making spiritual truths accessible, he combines biblical insight with real-life application to help everyday Christians live out their faith.</p>
+   </div>
+  </div>
+  <div class="faq">
+   <details class="rv"><summary>How do I get my ebook after buying?</summary><p>As soon as your payment is confirmed you receive an email with a secure download link for each book. Links work for 30 days, so save the files to your device.</p></details>
+   <details class="rv"><summary>Which format are the ebooks?</summary><p>Ebooks are delivered as PDF files that open on phones, tablets, computers and most e-readers.</p></details>
+   <details class="rv"><summary>I did not receive my email.</summary><p>Check your spam or promotions folder first. If it is not there, write to hello@spiritualgrowthcamp.com with the email address you used at checkout.</p></details>
+   <details class="rv"><summary>Can a church or group buy several copies?</summary><p>Yes. Email hello@spiritualgrowthcamp.com and we will send you an invoice for the number of copies you need.</p></details>
+  </div>
+ </div>
+</section>
+</main>
+
+<button class="cartbtn" id="cartBtn" aria-controls="cart"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span>Cart</span><span class="n" id="cartN">0</span></button>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="cart" aria-label="Your cart" aria-hidden="true">
+ <div class="d-top"><h2>Your cart</h2><button class="x" id="closeCart" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+ <div class="items" id="items"></div>
+ <div class="d-foot">
+  <div class="tot"><span style="color:var(--muted)">Total</span><b id="cartTotal">$0.00</b></div>
+  <p class="err" id="cartError" role="alert" hidden></p>
+  <button class="btn btn-red" id="checkoutBtn">Checkout securely</button>
+  <span class="note">You will be taken to Stripe to pay. Download links arrive by email.</span>
+ </div>
+</aside>
+<footer class="foot">
+ <div class="wrap">
+  <div class="foot-row">
+   <nav aria-label="Footer">
+    <a href="/">Home</a><a href="/bootcamp.html">Bootcamp</a><a href="/apply.html">Apply</a><a href="/bookstore.html">Bookstore</a><a href="/through-the-bible.html">Through the Bible App</a>
+   </nav>
+   <span style="font-size:14px;color:rgba(5,10,20,.6)">hello@spiritualgrowthcamp.com</span>
+  </div>
+  <small>&copy; 2026 School of Spiritual Growth. Payments are processed securely by Stripe.</small>
+ </div>
+ <div class="wordmark" aria-hidden="true">spiritual growth<span class="r">.</span></div>
+</footer>
+<script src="/assets/sgc.js?v=1"></script>
+<script>window.SGC_BOOKS=[{"sku": "ebook-bootcamp-collections", "title": "Spiritual Growth Bootcamp Collections", "price": 50.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-7.png", "desc": "A collection of five books used throughout the 90 days of the Spiritual Growth Bootcamp, to help you build a stronger, more consistent walk with Christ."}, {"sku": "ebook-school-of-spiritual-growth", "title": "School of Spiritual Growth", "price": 19.99, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/6.png", "desc": ""}, {"sku": "ebook-rethinking-spiritual-warfare", "title": "Rethinking Spiritual Warfare", "price": 10.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/3.png", "desc": ""}, {"sku": "ebook-365-days-scripture-adventure", "title": "365 Days of Scripture Adventure", "price": 10.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/4.png", "desc": ""}, {"sku": "ebook-a-tongue-on-fire", "title": "A Tongue on Fire", "price": 6.99, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/1.png", "desc": ""}, {"sku": "ebook-sweet-fellowship-of-the-spirit", "title": "The Sweet Fellowship of the Spirit", "price": 10.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/2.png", "desc": ""}, {"sku": "ebook-i-write-to-you", "title": "I Write to You", "price": 4.99, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/9.png", "desc": ""}, {"sku": "ebook-running-with-the-horses", "title": "Running With the Horses", "price": 15.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-5.png", "desc": ""}, {"sku": "ebook-priesthood-of-the-believer", "title": "Priesthood of the Believer", "price": 6.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-1.png", "desc": ""}, {"sku": "ebook-by-faith-conquering-kingdoms", "title": "By Faith Conquering Kingdoms", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-2.png", "desc": ""}, {"sku": "ebook-listen", "title": "Listen: How to Hear God in a Noisy World", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-3.png", "desc": ""}, {"sku": "ebook-a-heart-on-fire", "title": "A Heart on Fire", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-6.png", "desc": ""}, {"sku": "ebook-gods-men", "title": "God's Men", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-4.png", "desc": ""}];</script>
+<script>
+(function(){
+  var B=window.SGC_BOOKS, by={}; B.forEach(function(b){by[b.sku]=b;});
+  var KEY='sgc_cart', cart=[];
+  try{ cart=(JSON.parse(localStorage.getItem(KEY)||'[]')||[]).filter(function(s){return by[s];}); }catch(e){ cart=[]; }
+  function save(){ try{ localStorage.setItem(KEY,JSON.stringify(cart)); }catch(e){} }
+  function money(n){ return '$'+n.toFixed(2); }
+  function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+  var grid=document.getElementById('books');
+  grid.innerHTML=B.map(function(b,i){
+    return '<article class="book rv'+(i%4?' d'+(i%4>3?3:i%4):'')+'"><div class="cover"><img loading="lazy" src="'+b.cover+'" alt="Cover of '+esc(b.title)+'" width="300" height="450"></div>'+
+      '<h3>'+esc(b.title)+'</h3><div class="row"><span class="p">'+money(b.price)+'</span><button class="add" data-add="'+b.sku+'">Add</button></div></article>';
+  }).join('');
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target);}});});
+    grid.querySelectorAll('.rv').forEach(function(el){ if(el.getBoundingClientRect().top>innerHeight*.9){el.classList.add('pre');} io.observe(el); });
+  }
+
+  var btn=document.getElementById('cartBtn'), n=document.getElementById('cartN');
+  function render(){
+    n.textContent=cart.length; btn.classList.toggle('show',cart.length>0);
+    document.querySelectorAll('[data-add]').forEach(function(el){
+      var inC=cart.indexOf(el.getAttribute('data-add'))>-1;
+      el.classList.toggle('in-cart',inC);
+      el.textContent = inC ? 'In cart' : (el.classList.contains('add') ? 'Add' : 'Add to cart');
+    });
+    var items=document.getElementById('items');
+    if(!cart.length){ items.innerHTML='<p class="empty">Your cart is empty.</p>'; }
+    else items.innerHTML=cart.map(function(s){ var b=by[s];
+      return '<div class="it"><img src="'+b.cover+'" alt=""><div><b>'+esc(b.title)+'</b><small>Ebook &middot; '+money(b.price)+'</small></div><button class="rm" data-rm="'+s+'">Remove</button></div>'; }).join('');
+    var t=cart.reduce(function(a,s){return a+by[s].price;},0);
+    document.getElementById('cartTotal').textContent=money(t);
+    document.getElementById('checkoutBtn').disabled=!cart.length;
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('[data-add]');
+    if(a){ var s=a.getAttribute('data-add');
+      if(cart.indexOf(s)<0){ cart.push(s); save(); render(); btn.classList.remove('bump'); void btn.offsetWidth; btn.classList.add('bump'); }
+      else open(true);
+    }
+    var r=e.target.closest('[data-rm]');
+    if(r){ cart=cart.filter(function(s){return s!==r.getAttribute('data-rm');}); save(); render(); }
+  });
+  var drawer=document.getElementById('cart');
+  function open(o){ document.body.classList.toggle('cart-open',o); drawer.setAttribute('aria-hidden',!o); if(o) document.getElementById('closeCart').focus(); }
+  btn.addEventListener('click',function(){open(true);});
+  document.getElementById('closeCart').addEventListener('click',function(){open(false);});
+  document.getElementById('scrim').addEventListener('click',function(){open(false);});
+  addEventListener('keydown',function(e){ if(e.key==='Escape') open(false); });
+  document.getElementById('checkoutBtn').addEventListener('click',function(){
+    SGC_startCheckout('/api/checkout.php',{items:cart.map(function(s){return {sku:s,quantity:1};})},this,document.getElementById('cartError'));
+  });
+  render();
+  if(/[?&]canceled=1/.test(location.search) && cart.length) open(true);
+})();
+</script>
+</body>
+</html>
