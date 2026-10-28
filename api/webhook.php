@@ -130,6 +130,7 @@ function fulfil_checkout_session(string $sessionId): void {
     $email = $session['customer_details']['email'] ?? ($session['customer_email'] ?? '');
     $name  = $session['customer_details']['name'] ?? '';
     $flow  = $session['metadata']['flow'] ?? '';
+    if ($flow === 'ttb-app') return; // Through the Bible app memberships are handled by the app's own webhook.
 
     $skus = [];
     foreach ($lines['data'] ?? [] as $li) {
