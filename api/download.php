@@ -28,9 +28,12 @@ if (time() > (int)$grant['expires_at']) fail('This download link has expired.', 
 if ((int)$grant['downloads'] >= (int)$grant['limit']) fail('This link has reached its download limit.', 429);
 
 $file = null;
-foreach (['pdf', 'epub', 'zip'] as $ext) {
-    $candidate = sgc_private_dir() . "/ebooks/$sku.$ext";
-    if (is_file($candidate)) { $file = $candidate; break; }
+// Accept "ebook-saved.pdf" or "saved.pdf" in sgc-private/ebooks/
+foreach ([$sku, preg_replace('/^ebook-/', '', $sku)] as $base) {
+    foreach (['pdf', 'epub', 'zip'] as $ext) {
+        $candidate = sgc_private_dir() . "/ebooks/$base.$ext";
+        if (is_file($candidate)) { $file = $candidate; break 2; }
+    }
 }
 if (!$file) {
     sgc_log('download', 'Ebook file missing', ['sku' => $sku]);

@@ -34,7 +34,6 @@ $fields = [
     'CommitmentJournal'     => ['Commits to journaling', true, 3],
     'CommitmentWeekly'      => ['Available for weekly meetings', true, 3],
     'AccountabilityPartner' => ['Comfortable with accountability partner', true, 3],
-    'Cohort'                => ['Cohort', true, 40],
 ];
 
 $app = [];
@@ -46,6 +45,13 @@ foreach ($fields as $name => [$label, $required, $max]) {
 if (!filter_var($app['Email'], FILTER_VALIDATE_EMAIL)) sgc_json(['error' => 'Please enter a valid email address.'], 400);
 if (!ctype_digit($app['Age']) || (int)$app['Age'] < 18 || (int)$app['Age'] > 120) sgc_json(['error' => 'The Bootcamp is for adults aged 18 and over.'], 400);
 if (empty($in['AgreeTerms'])) sgc_json(['error' => 'Please confirm you understand the payment and refund terms.'], 400);
+
+// Hidden fields, set on the server so they cannot be altered in the browser.
+$cohort = sgc_cohort();
+$app['Cohort'] = $cohort['label'];          // e.g. "Cohort 1, January 2027"
+$app['CohortStart'] = $cohort['start'];     // e.g. "2027-01-15"
+$app['Timestamp'] = gmdate('Y-m-d');        // submission date (Sender date field)
+$app['SubmittedAt'] = gmdate('c');
 
 $appId = 'app_' . date('Ymd') . '_' . sgc_random_id(9);
 $app['id'] = $appId;

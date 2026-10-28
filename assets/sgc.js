@@ -34,8 +34,17 @@
   window.SGC_fmtDate = function (d) {
     return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
+  // Cohort number: 1 = January, 2 = May, 3 = September (matches sgc_cohort() in api/_lib.php)
+  window.SGC_cohort = function () {
+    var d = SGC_nextCohort(), n = [0, 4, 8].indexOf(d.getMonth()) + 1;
+    var month = d.toLocaleDateString('en-US', { month: 'long' });
+    return { number: n, date: d, label: 'Cohort ' + n + ', ' + month + ' ' + d.getFullYear(), short: 'Cohort ' + n + ' ' + d.getFullYear() };
+  };
   document.querySelectorAll('[data-next-cohort]').forEach(function (el) {
     el.textContent = SGC_fmtDate(SGC_nextCohort());
+  });
+  document.querySelectorAll('[data-cohort]').forEach(function (el) {
+    var c = SGC_cohort(); el.textContent = el.getAttribute('data-cohort') === 'short' ? c.short : c.label;
   });
 
   // POST JSON to our API and go to Stripe Checkout

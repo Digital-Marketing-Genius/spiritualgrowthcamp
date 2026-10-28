@@ -69,7 +69,7 @@
  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
  <div class="wrap">
   <div style="max-width:760px;margin-bottom:32px">
-   <span class="label">Cohort application</span>
+   <span class="label"><span data-cohort="label">Cohort</span> application</span>
    <h1 class="display" style="font-size:clamp(40px,6vw,76px);margin-top:16px">Apply for the <em class="s">Bootcamp.</em></h1>
    <p class="lede">A few short steps, then a secure $50 payment to submit. It takes about ten minutes.</p>
   </div>
@@ -174,7 +174,8 @@
     <div class="sumcard">
      <span class="label">Your order</span>
      <div class="row" style="margin-top:10px"><span>Spiritual Growth Bootcamp</span><span>$50.00</span></div>
-     <div class="row"><span>Cohort</span><span data-next-cohort>January 15, 2027</span></div>
+     <div class="row"><span>Cohort</span><span data-cohort="short">Cohort 1 2027</span></div>
+     <div class="row"><span>Starts</span><span data-next-cohort>January 15, 2027</span></div>
      <div class="row"><span>Total</span><span class="total">$50 <small style="font-size:12px;font-family:var(--f-mono);color:var(--faint)">USD</small></span></div>
     </div>
     <div class="secure"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg><span>Payment is handled on Stripe's secure checkout. We never see or store your card details.</span></div>
@@ -195,7 +196,7 @@
  </div>
  <div class="wordmark" aria-hidden="true">spiritual growth<span class="r">.</span></div>
 </footer>
-<script src="/assets/sgc.js?v=1"></script>
+<script src="/assets/sgc.js?v=2"></script>
 <script>
 (function(){
   var form=document.getElementById('appForm');
@@ -203,7 +204,7 @@
   var bars=[].slice.call(form.querySelectorAll('.steps li'));
   var next=document.getElementById('nextBtn'), back=document.getElementById('backBtn');
   var err=document.getElementById('formError');
-  var cohort=SGC_fmtDate(SGC_nextCohort());
+  var cohort=SGC_cohort().label; // display only; the server sets the official cohort
   document.getElementById('cohortField').value=cohort;
   var KEY='sgc_apply_draft', i=0;
 

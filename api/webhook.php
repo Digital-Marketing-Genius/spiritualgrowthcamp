@@ -201,20 +201,31 @@ function fulfil_bootcamp(array $session, array $order): void {
         curl_close($ch);
     }
 
-    $first = $app['FirstName'];
-    sgc_mail($app['Email'], 'We received your Bootcamp application',
-        '<h1 style="font-family:Georgia,serif;font-weight:normal">Thank you, ' . h($first) . '.</h1>'
-        . '<p>Your application to the Spiritual Growth Bootcamp (' . h($app['Cohort']) . ') and your $50 payment have been received.</p>'
-        . '<p>We review every application personally and will email you with a decision. If you are not accepted into this cohort, your $50 will be refunded in full.</p>'
-        . '<p style="font-style:italic;color:#555">"The things that thou hast heard of me among many witnesses, the same commit thou to faithful men, who shall be able to teach others also." 2 Timothy 2:2</p>');
+    // Record the applicant in Sender (group "Spiritual Growth Bootcamp"). Joining the
+    // group starts the Sender confirmation email. If Sender is not configured or
+    // fails, send the confirmation through our own mailer instead.
+    $inSender = false;
+    try { $inSender = sgc_sender_add_applicant($app); } catch (Throwable $e) { sgc_log('sender', $e->getMessage()); }
+    $app['sender_synced'] = $inSender;
+    sgc_save('applications', $appId, $app);
+
+    if (!$inSender) {
+        $first = $app['FirstName'];
+        sgc_mail($app['Email'], 'We received your Bootcamp application',
+            '<h1 style="font-family:Georgia,serif;font-weight:normal">Thank you, ' . h($first) . '.</h1>'
+            . '<p>Your application to the Spiritual Growth Bootcamp (' . h($app['Cohort']) . ') and your $50 payment have been received.</p>'
+            . '<p>We review every application personally and will email you with a decision. If you are not accepted into this cohort, your $50 will be refunded in full.</p>'
+            . '<p style="font-style:italic;color:#555">"The things that thou hast heard of me among many witnesses, the same commit thou to faithful men, who shall be able to teach others also." 2 Timothy 2:2</p>');
+    }
 
     $rows = '';
     foreach ($app as $k => $v) {
         if (in_array($k, ['ip_country'], true)) continue;
+        if (is_bool($v)) $v = $v ? 'yes' : 'no';
         $rows .= '<tr><td style="padding:4px 8px;color:#666;vertical-align:top">' . h($k) . '</td><td style="padding:4px 8px">' . nl2br(h($v)) . '</td></tr>';
     }
-    sgc_mail($cfg['admin_email'], 'New paid Bootcamp application: ' . $app['FirstName'] . ' ' . $app['LastName'],
-        '<p>A new application has been paid and is ready for review.</p><table style="border-collapse:collapse;font-size:14px">' . $rows . '</table>'
+    sgc_mail($cfg['admin_email'], 'New paid Bootcamp application: ' . $app['FirstName'] . ' ' . $app['LastName'] . ' (' . $app['Cohort'] . ')',
+        '<p>A new application has been paid and is ready for review.' . ($inSender ? ' It has been added to the Sender group "Spiritual Growth Bootcamp".' : ' <b>It could not be added to Sender</b>; please add it manually.') . '</p><table style="border-collapse:collapse;font-size:14px">' . $rows . '</table>'
         . '<p>To decline an applicant, refund the payment in the Stripe Dashboard (Payments, open the payment, Refund).</p>');
 }
 
