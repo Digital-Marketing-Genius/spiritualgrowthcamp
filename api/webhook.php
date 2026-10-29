@@ -66,6 +66,10 @@ try {
                 'updated_at' => date('c'),
             ]);
             sgc_save('subscriptions', $obj['id'], $sub);
+            if (($obj['metadata']['flow'] ?? '') === 'ttb-app') {
+                require_once __DIR__ . '/app/_ttb.php';
+                ttb_sync_subscription($obj); // throws on failure so Stripe retries
+            }
             if ($type === 'customer.subscription.deleted') {
                 sgc_mail($cfg['admin_email'], 'Through the Bible App subscription ended', '<p>Subscription <b>' . h($obj['id']) . '</b> has ended.</p>');
             }
@@ -130,7 +134,17 @@ function fulfil_checkout_session(string $sessionId): void {
     $email = $session['customer_details']['email'] ?? ($session['customer_email'] ?? '');
     $name  = $session['customer_details']['name'] ?? '';
     $flow  = $session['metadata']['flow'] ?? '';
-    if ($flow === 'ttb-app') return; // Through the Bible app memberships are handled by the app's own webhook.
+    if ($flow === 'ttb-app') {
+        // Through the Bible app membership: record it in Supabase.
+        try {
+            require_once __DIR__ . '/app/_ttb.php';
+            if (!empty($session['subscription'])) ttb_sync_subscription(['id' => $session['subscription'], 'metadata' => $session['metadata'] ?? []], $session['client_reference_id'] ?? null);
+        } catch (Throwable $e) {
+            sgc_release_claim('fulfilled', $sessionId);
+            throw $e;
+        }
+        return;
+    }
 
     $skus = [];
     foreach ($lines['data'] ?? [] as $li) {

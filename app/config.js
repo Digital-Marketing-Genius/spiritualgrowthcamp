@@ -1,0 +1,1 @@
+window.TTB_CONFIG={"supabaseUrl":"https://hpyntlrumfzslpvlswoq.supabase.co","supabaseKey":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhweW50bHJ1bWZ6c2xwdmxzd29xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAzMDMxOTAsImV4cCI6MjEwNTg3OTE5MH0._eMuhPhEi469ZOMHF2-2HjtGOoUSFuego0b-3-L0CVc","hosted":true,"emailEnabled":true,"apiBase":"/api/app/"};

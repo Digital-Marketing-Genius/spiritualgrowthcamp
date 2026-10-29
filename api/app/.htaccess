@@ -1,0 +1,11 @@
+# Pass the reader's sign-in token (Authorization header) through to PHP.
+CGIPassAuth On
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# The cron script and helpers are not web pages.
+<FilesMatch "^(_.*|daily-reading\.php)$">
+  Require all denied
+</FilesMatch>
