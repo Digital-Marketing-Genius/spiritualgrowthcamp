@@ -2,7 +2,7 @@
 /**
  * GET /api/download.php?t=<token>&b=<ebook sku>
  * Streams a purchased ebook from the private folder (never from public_html).
- * Files live in:  <domain folder>/sgc-private/ebooks/<sku>.pdf  (or .epub / .zip)
+ * Files live in <domain folder>/sgc-private/ebooks/ (names listed in api/_books.php).
  */
 require __DIR__ . '/_lib.php';
 
@@ -27,14 +27,7 @@ if (!$grant || !in_array($sku, $grant['skus'] ?? [], true)) fail('This download 
 if (time() > (int)$grant['expires_at']) fail('This download link has expired.', 410);
 if ((int)$grant['downloads'] >= (int)$grant['limit']) fail('This link has reached its download limit.', 429);
 
-$file = null;
-// Accept "ebook-saved.pdf" or "saved.pdf" in sgc-private/ebooks/
-foreach ([$sku, preg_replace('/^ebook-/', '', $sku)] as $base) {
-    foreach (['pdf', 'epub', 'zip'] as $ext) {
-        $candidate = sgc_private_dir() . "/ebooks/$base.$ext";
-        if (is_file($candidate)) { $file = $candidate; break 2; }
-    }
-}
+$file = sgc_ebook_file($sku);
 if (!$file) {
     sgc_log('download', 'Ebook file missing', ['sku' => $sku]);
     fail('This book is being prepared. We have been notified and will email it to you shortly.', 503);

@@ -249,26 +249,7 @@ function fulfil_ebooks(array $order): void {
     $ebookSkus = array_values(array_filter($order['skus'], function ($s) { $i = sgc_item($s); return $i && $i['kind'] === 'ebook'; }));
     if (!$ebookSkus) return;
 
-    $token = sgc_random_id(24);
-    sgc_save('downloads', hash('sha256', $token), [
-        'session_id' => $order['session_id'],
-        'email' => $order['email'],
-        'skus' => $ebookSkus,
-        'expires_at' => time() + 86400 * (int)$cfg['download_days'],
-        'downloads' => 0,
-        'limit' => (int)$cfg['download_limit'],
-    ]);
-
-    $base = rtrim($cfg['site_url'], '/') . '/api/download.php?t=' . rawurlencode($token);
-    $list = '';
-    foreach ($ebookSkus as $sku) {
-        $item = sgc_item($sku);
-        $list .= '<li style="margin:8px 0"><a href="' . h($base . '&b=' . rawurlencode($sku)) . '" style="color:#C21B1B">' . h($item['name']) . '</a></li>';
-    }
-    sgc_mail($order['email'], 'Your ebooks from the School of Spiritual Growth',
-        '<h1 style="font-family:Georgia,serif;font-weight:normal">Your books are ready.</h1>'
-        . '<p>Thank you for your order. Download your ebooks below:</p><ul style="padding-left:18px">' . $list . '</ul>'
-        . '<p style="font-size:13px;color:#666">These links work for ' . (int)$cfg['download_days'] . ' days. Please save the files to your device.</p>');
+    sgc_send_ebook_links($order['email'], $ebookSkus, $order['session_id']);
     sgc_mail($cfg['admin_email'], 'New ebook order', '<p>' . h($order['email']) . ' bought: ' . h(implode(', ', $ebookSkus)) . '</p>');
 }
 

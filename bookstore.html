@@ -13,8 +13,39 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;800;900&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,400;1,400;1,600&display=swap">
-<link rel="stylesheet" href="/assets/sgc.css?v=1">
+<link rel="stylesheet" href="/assets/sgc.css?v=2">
 <style>
+.burger{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center;transition:border-color .25s,background .25s}
+.burger:hover{border-color:var(--paper);background:rgba(242,239,233,.06)}
+.burger span{display:block;width:16px;height:1.5px;background:var(--paper);position:relative}
+.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:var(--paper);transition:transform .3s var(--ease)}
+.burger span::before{top:-5px}.burger span::after{top:5px;width:10px}
+.burger:hover span::after{width:16px}
+.sm-scrim{position:fixed;inset:0;z-index:70;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s}
+.sm-drawer{position:fixed;top:0;bottom:0;left:0;z-index:71;width:min(360px,88vw);background:#0B111D;border-right:1px solid var(--line);transform:translateX(-102%);transition:transform .55s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px)}
+body.sm-open .sm-scrim{opacity:1;visibility:visible}
+body.sm-open .sm-drawer{transform:none}
+.sm-d-top{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+.sm-d-close{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-2);display:grid;place-items:center}
+.sm-d-close svg{width:16px;height:16px}
+.sm-d-body{overflow-y:auto;padding:8px 0 24px;flex:1;overscroll-behavior:contain}
+.sm-d-group{padding:18px 20px 6px}
+.sm-d-group h4{margin:0 0 6px;font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson-hot)}
+.sm-d-item{display:flex;align-items:center;gap:14px;padding:10px 10px;margin:0 -10px;border-radius:12px;transition:background .2s}
+.sm-d-item:hover{background:rgba(242,239,233,.05)}
+.sm-d-item svg{width:22px;height:22px;flex:none;color:var(--paper);stroke-width:1.5}
+.sm-d-item b{display:block;font-weight:500;font-size:15.5px;line-height:1.25}
+.sm-d-item small{display:block;font-size:13px;color:var(--muted);line-height:1.35}
+.sm-d-item .chev{width:14px;height:14px;margin-left:auto;opacity:0;transform:translateX(-6px);transition:.25s var(--ease)}
+.sm-d-item:hover .chev{opacity:.6;transform:none}
+.sm-d-links{display:flex;flex-wrap:wrap;gap:6px 18px;padding:18px 20px 0;border-top:1px solid var(--line);margin-top:14px}
+.sm-d-links a{font-size:13px;color:var(--muted)}
+.sm-d-links a:hover{color:var(--paper)}
+body.sm-open .sm-d-group{animation:dIn .6s var(--ease) both}
+body.sm-open .sm-d-group:nth-child(2){animation-delay:.06s}body.sm-open .sm-d-group:nth-child(3){animation-delay:.12s}
+body.sm-open .sm-d-group:nth-child(4){animation-delay:.18s}body.sm-open .sm-d-group:nth-child(5){animation-delay:.24s}
+@keyframes dIn{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+.hdr-l{display:flex;align-items:center;gap:14px}
 
 .hero{position:relative;overflow:hidden;isolation:isolate;padding-block:clamp(56px,8vw,104px)}
 .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
@@ -74,10 +105,35 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
 .faq summary::after{content:"+";font-family:var(--f-mono);color:var(--crimson-hot)}
 .faq details[open] summary::after{content:"\2212"}
 .faq details p{margin:0 0 18px;color:var(--muted)}
-.author{display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:start}
-.author .av{width:88px;height:88px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#E33A2C,#7a0f12);display:grid;place-items:center;font-family:var(--f-serif);font-style:italic;font-size:36px}
+.author{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:start}
+.author .photo{width:150px;aspect-ratio:4/5;border-radius:20px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.4)}
+.author .photo img{width:100%;height:100%;object-fit:cover}
+.book .tag{font-size:13px;color:rgba(5,10,20,.6);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0}
+.book .print{font-size:12.5px;color:rgba(5,10,20,.62);margin:0}
+.book .print a{color:var(--crimson);text-decoration:underline;text-underline-offset:2px}
+.book .cover,.book h3{cursor:pointer}
+.free{color:var(--crimson);font-weight:600}
+.more{font-size:12.5px;color:rgba(5,10,20,.6);text-decoration:underline;text-underline-offset:2px;text-align:left;padding:0}
+.modal{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.modal.on{opacity:1;visibility:visible}
+.modal .bg{position:absolute;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(3px)}
+.modal .box{position:relative;width:min(860px,100%);max-height:min(88vh,900px);overflow-y:auto;background:#0B111D;border:1px solid var(--line);border-radius:26px;padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:220px 1fr;gap:32px;transform:translateY(16px);transition:transform .45s var(--ease)}
+.modal.on .box{transform:none}
+.modal.small .box{width:min(460px,100%);grid-template-columns:1fr}
+@media (max-width:680px){.modal .box{grid-template-columns:1fr}.modal .box .mc{width:150px}}
+.modal .x{position:absolute;top:14px;right:14px}
+.modal .mc{aspect-ratio:2/3;border-radius:4px 12px 12px 4px;overflow:hidden;box-shadow:-8px 20px 40px rgba(0,0,0,.5)}
+.modal .mc img{width:100%;height:100%;object-fit:cover}
+.modal h2{font-size:clamp(26px,3.4vw,36px);font-weight:400;letter-spacing:-.02em;line-height:1.1;padding-right:36px}
+.modal .tl{font-family:var(--f-serif);font-style:italic;color:var(--muted);margin:10px 0 0}
+.modal .bl p{color:var(--muted);margin:14px 0 0;line-height:1.65}
+.modal .buy{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--line)}
+.modal .buy .amt{font-weight:300;font-size:30px;letter-spacing:-.03em;margin-right:8px}
+.modal .pp{font-size:14px;color:var(--muted);margin-top:12px}
+.modal .pp a{color:var(--paper);text-decoration:underline;text-underline-offset:3px}
+.ff{display:grid;gap:12px;margin-top:18px}
 .author p{color:var(--muted);margin:10px 0 0;max-width:62ch}
-@media (max-width:560px){.author{grid-template-columns:1fr}}
+@media (max-width:560px){.author{grid-template-columns:1fr}.author .photo{width:140px}}
 
 </style>
 </head>
@@ -85,7 +141,10 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
 <div class="grain" aria-hidden="true"></div>
 <header class="hdr">
  <div class="wrap">
-  <a href="/" class="logo" aria-label="School of Spiritual Growth home"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#C21B1B"/><path d="M16 24v-8m0 0c0-4 3-7 7-7 0 4-3 7-7 7Zm0 0c0-3-2.5-5.5-5.5-5.5 0 3 2.5 5.5 5.5 5.5Z" fill="none" stroke="#F2EFE9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Spiritual Growth</b><small>School of</small></span></a>
+  <div class="hdr-l">
+   <button class="burger" id="smOpen" aria-label="Open menu" aria-controls="smDrawer" aria-expanded="false"><span></span></button>
+   <a href="/" class="logo" aria-label="School of Spiritual Growth home"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="#C21B1B"/><path d="M16 24v-8m0 0c0-4 3-7 7-7 0 4-3 7-7 7Zm0 0c0-3-2.5-5.5-5.5-5.5 0 3 2.5 5.5 5.5 5.5Z" fill="none" stroke="#F2EFE9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Spiritual Growth</b><small>School of</small></span></a>
+  </div>
   <nav class="nav" aria-label="Main">
    <a class="lnk" href="/bootcamp.html">Bootcamp</a>
    <a class="lnk" href="/bookstore.html" aria-current="page">Bookstore</a>
@@ -94,6 +153,81 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
   </nav>
  </div>
 </header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+ <defs>
+  <symbol id="i-seed" viewBox="0 0 32 32"><circle cx="16" cy="16" r="15" fill="#C21B1B"/><path d="M16 24v-8m0 0c0-4 3-7 7-7 0 4-3 7-7 7Zm0 0c0-3-2.5-5.5-5.5-5.5 0 3 2.5 5.5 5.5 5.5Z" fill="none" stroke="#F2EFE9" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21v-9"/><path d="M12 12c0-4 3-7 7-7 0 4-3 7-7 7Z"/><path d="M12 14c0-3-2.5-5.5-6-5.5 0 3.2 2.6 5.5 6 5.5Z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5.3 1.5 1 2.5 2 3 0-3 0-5.5 1-8.5Z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-dove" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14c4 0 7-2 9-6 1-2 3-3 5-3l3 1-3 1c0 6-4 11-10 11l-4 2 1-3c-1-1-1-2-1-3Z"/><path d="M12 8c-1-2-3-3-6-3 0 3 2 5 5 5"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5C4 4.1 5.1 3 6.5 3H18v14"/><path d="M6.5 3C7.9 3 9 4.1 9 5.5V19a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2v-2H11"/><path d="M12 8h4M12 12h4"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9s-1.3 6.5-3.8 9c-2.5-2.5-3.8-5.5-3.8-9S9.5 5.5 12 3Z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2Z"/><path d="M12 6.5v13"/></symbol>
+  <symbol id="i-hands" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v8M12 4c-1-1-2.5-.5-2.5 1v6L7 15v5M12 4c1-1 2.5-.5 2.5 1v6l2.5 4v5"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v5c0 4.5 3 8.3 7 10 4-1.7 7-5.5 7-10V6l-7-3Z"/><path d="M12 8v8M9 11h6"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2Z"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11M12 9c-2 0-4.5-.5-4.5-2.5S10 4 12 9Zm0 0c2 0 4.5-.5 4.5-2.5S14 4 12 9Z"/></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h3l7 4V6L7 10H4Z"/><path d="M17.5 9a4 4 0 0 1 0 6M7 14l1 5h2.5"/></symbol>
+  <symbol id="i-coins" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="9" cy="7" rx="5" ry="2.5"/><path d="M4 7v4c0 1.4 2.2 2.5 5 2.5s5-1.1 5-2.5V7"/><path d="M10 15.5c.9.3 1.9.5 3 .5 2.8 0 5-1.1 5-2.5V9.6M14 11.5c2.3.2 4-.6 4-1.9"/></symbol>
+  <symbol id="i-anchor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v14M8 11h8M4.5 13a7.5 7.5 0 0 0 15 0"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7.5-4.5-7.5-10A4.3 4.3 0 0 1 12 7.3 4.3 4.3 0 0 1 19.5 10C19.5 15.5 12 20 12 20Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5"/><path d="M16 5.2a3 3 0 0 1 0 5.6M18 13.8c1.8.7 3 2.6 3 5.2"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.5l2.2 11h10.6l2-8H7"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m10 8.5 5.5 3.5-5.5 3.5v-7Z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12c0 1.6.1 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.3-1.6.4-3.2.4-4.8s-.1-3.2-.4-4.8ZM10 15V9l5.2 3L10 15Z"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.5H16l.4-3H13.5V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4A21 21 0 0 0 14.3 4c-2.3 0-3.8 1.4-3.8 3.9v2.6H8v3h2.5V21h3Z"/></symbol>
+ </defs>
+</svg>
+<div class="sm-scrim" id="smScrim"></div>
+<aside class="sm-drawer" id="smDrawer" aria-label="Site menu" aria-hidden="true">
+ <div class="sm-d-top">
+  <a href="/" class="logo"><svg><use href="#i-seed"/></svg><span><b>Spiritual Growth</b><small>School of</small></span></a>
+  <button class="sm-d-close" id="smClose" aria-label="Close menu"><svg><use href="#i-x"/></svg></button>
+ </div>
+ <div class="sm-d-body">
+  <div class="sm-d-group">
+   <h4>Foundations</h4>
+   <a class="sm-d-item" href="/bootcamp.html"><svg><use href="#i-sprout"/></svg><span><b>Spiritual Growth Bootcamp</b><small>90 days online, cohort-based</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+  </div>
+  <div class="sm-d-group">
+   <h4>Advance Programme</h4>
+   <a class="sm-d-item" href="/#programmes"><svg><use href="#i-flame"/></svg><span><b>School of Prayer</b><small>A life of fervent intercession</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/#programmes"><svg><use href="#i-eye"/></svg><span><b>Prophetic School</b><small>Hear and steward the voice of God</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/#programmes"><svg><use href="#i-dove"/></svg><span><b>School of the Spirit</b><small>Gifts, power and partnership</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/#programmes"><svg><use href="#i-scroll"/></svg><span><b>School of Doctrine</b><small>Sound teaching, firm roots</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/#programmes"><svg><use href="#i-globe"/></svg><span><b>Missions &amp; Apologetics</b><small>Carry and defend the Gospel</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+  </div>
+  <div class="sm-d-group">
+   <h4>Resources</h4>
+   <a class="sm-d-item" href="/bookstore.html"><svg><use href="#i-cart"/></svg><span><b>Bookstore</b><small>Books by Tayo Alofun</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/through-the-bible.html"><svg><use href="#i-phone"/></svg><span><b>Through the Bible App</b><small>Read the whole story, day by day</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/#resources"><svg><use href="#i-book"/></svg><span><b>Devotionals</b><small>Monthly, annual and specialised</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+  </div>
+  <div class="sm-d-group">
+   <h4>Meetings</h4>
+   <a class="sm-d-item" href="/#meetings"><svg><use href="#i-users"/></svg><span><b>Weekly Bible Study</b><small>Fridays, 6 PM WAT</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/#meetings"><svg><use href="#i-hands"/></svg><span><b>Prayer Meetings</b><small>Weekly, monthly and quarterly</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+  </div>
+  <div class="sm-d-group">
+   <h4>About</h4>
+   <a class="sm-d-item" href="/#mission"><svg><use href="#i-info"/></svg><span><b>Our Mission</b><small>Why the School exists</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+   <a class="sm-d-item" href="/apply.html"><svg><use href="#i-pen"/></svg><span><b>Apply</b><small>Join the next cohort</small></span><svg class="chev"><use href="#i-chev"/></svg></a>
+  </div>
+  <div class="sm-d-links">
+   <a href="/#mission">Beliefs</a><a href="/#apply">Contact</a><a href="/">Privacy</a><a href="/">Terms</a>
+  </div>
+ </div>
+</aside>
 <main>
 <section class="hero">
  <div class="aurora" aria-hidden="true"><i></i><i></i></div>
@@ -104,14 +238,15 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
    <p class="lede">Bible studies, devotionals and teaching by Tayo Alofun. Buy once, download straight away, and read on any device.</p>
    <div class="notice" data-canceled hidden style="margin-top:20px">Checkout was cancelled and you have not been charged. Your cart is still saved.</div>
    <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--line)">
-    <span class="label">Featured</span>
-    <h2 style="font-size:28px;font-weight:400;letter-spacing:-.02em;margin-top:8px">Spiritual Growth Bootcamp Collections</h2>
-    <p style="color:var(--muted);margin:8px 0 0;max-width:52ch">A collection of five books used throughout the 90 days of the Spiritual Growth Bootcamp, to help you build a stronger, more consistent walk with Christ.</p>
-    <div class="pricey">$50.00</div>
-    <div class="ctas"><button class="btn btn-red" data-add="ebook-bootcamp-collections">Add to cart</button><a class="btn btn-line" href="#shelf">Browse all books</a></div>
+    <span class="label" style="color:var(--crimson-hot)">New release</span>
+    <h2 style="font-size:28px;font-weight:400;letter-spacing:-.02em;margin-top:8px">Refuse to Be God's Grandchild</h2>
+    <p style="color:var(--muted);margin:8px 0 0;max-width:52ch"><em style="font-family:var(--f-serif)">Stepping Past the Outer Courts into Direct Access and Unhindered Intimacy.</em> A grandchild learns about family history second-hand and visits only on special occasions.</p>
+    <div class="pricey">$5 <small style="font-family:var(--f-mono);font-size:13px;color:var(--faint);letter-spacing:.08em">EBOOK</small></div>
+    <div class="ctas"><button class="btn btn-red" data-add="ebook-refuse-to-be-gods-grandchild">Add to cart</button><button class="btn btn-line" data-info="ebook-refuse-to-be-gods-grandchild">Read more</button>
+   </div>
    </div>
   </div>
-  <div class="feature-cover rv"><img src="https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-7.png" alt="Cover of Spiritual Growth Bootcamp Collections" width="300" height="450"></div>
+  <div class="feature-cover rv" data-info="ebook-refuse-to-be-gods-grandchild" style="cursor:pointer"><img src="/assets/covers/refuse-to-be-gods-grandchild.jpg" alt="Cover of Refuse to Be God's Grandchild" width="300" height="450"></div>
  </div>
 </section>
 
@@ -119,7 +254,7 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
  <div class="wrap">
   <div class="shelf-head">
    <div><span class="label">The collection</span><h2 class="big" style="margin-top:14px">Every <em class="s">title.</em></h2></div>
-   <p style="margin:0;color:rgba(5,10,20,.6);max-width:40ch">Prices in USD. Checkout can show your local currency.</p>
+   <p style="margin:0;color:rgba(5,10,20,.6);max-width:44ch">Ebooks download instantly. Prices in USD; checkout can show your local currency. Paperbacks are sold on Amazon.</p>
   </div>
   <div class="books" id="books"></div>
  </div>
@@ -128,7 +263,7 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
 <section class="sec">
  <div class="wrap narrow">
   <div class="author rv">
-   <div class="av" aria-hidden="true">T</div>
+   <div class="photo"><img src="/assets/tayo-alofun.jpg" alt="Tayo Alofun" width="400" height="500" loading="lazy"></div>
    <div>
     <span class="label">About the author</span>
     <h2 style="font-size:30px;font-weight:400;letter-spacing:-.02em;margin-top:8px">Tayo Alofun</h2>
@@ -138,6 +273,8 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
   </div>
   <div class="faq">
    <details class="rv"><summary>How do I get my ebook after buying?</summary><p>As soon as your payment is confirmed you receive an email with a secure download link for each book. Links work for 30 days, so save the files to your device.</p></details>
+   <details class="rv"><summary>Are some books free?</summary><p>Yes. God&rsquo;s Men and I Write to You are free to download. Enter your email and the download link arrives straight away.</p></details>
+   <details class="rv"><summary>Can I buy a printed copy?</summary><p>Paperbacks are sold on Amazon. Where a paperback is available, the book shows a link to it; the others are coming soon.</p></details>
    <details class="rv"><summary>Which format are the ebooks?</summary><p>Ebooks are delivered as PDF files that open on phones, tablets, computers and most e-readers.</p></details>
    <details class="rv"><summary>I did not receive my email.</summary><p>Check your spam or promotions folder first. If it is not there, write to hello@spiritualgrowthcamp.com with the email address you used at checkout.</p></details>
    <details class="rv"><summary>Can a church or group buy several copies?</summary><p>Yes. Email hello@spiritualgrowthcamp.com and we will send you an invoice for the number of copies you need.</p></details>
@@ -145,6 +282,10 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
  </div>
 </section>
 </main>
+
+<div class="modal" id="info" role="dialog" aria-modal="true" aria-labelledby="mTitle"><div class="bg" data-close></div><div class="box"><button class="x" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div class="mc"><img id="mImg" alt=""></div><div><span class="label">Ebook by Tayo Alofun</span><h2 id="mTitle" style="margin-top:10px"></h2><p class="tl" id="mTag"></p><div class="bl" id="mBlurb"></div><div class="buy" id="mBuy"></div><p class="pp" id="mPrint"></p></div></div></div>
+<div class="modal small" id="freeM" role="dialog" aria-modal="true" aria-labelledby="fTitle"><div class="bg" data-close></div><div class="box"><button class="x" data-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button><div><span class="label">Free ebook</span><h2 id="fTitle" style="margin-top:10px"></h2><p class="tl">Enter your email and we will send your download link straight away.</p>
+<form class="ff" id="freeForm" novalidate><input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><div class="field"><label for="fName">First name (optional)</label><input class="in" id="fName" name="firstname" autocomplete="given-name"></div><div class="field"><label for="fEmail">Email</label><input class="in" id="fEmail" name="email" type="email" autocomplete="email" required></div><p class="err" id="fErr" role="alert" hidden></p><button class="btn btn-red" id="fBtn" type="submit">Send my free book</button><p style="font-size:12.5px;color:var(--faint);margin:0">We will also add you to our mailing list for devotionals and updates. Unsubscribe any time.</p></form><p id="fOk" hidden style="color:var(--ok);margin-top:18px"></p></div></div></div>
 
 <button class="cartbtn" id="cartBtn" aria-controls="cart"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg><span>Cart</span><span class="n" id="cartN">0</span></button>
 <div class="scrim" id="scrim"></div>
@@ -170,21 +311,31 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
  </div>
  <div class="wordmark" aria-hidden="true">spiritual growth<span class="r">.</span></div>
 </footer>
-<script src="/assets/sgc.js?v=2"></script>
-<script>window.SGC_BOOKS=[{"sku": "ebook-bootcamp-collections", "title": "Spiritual Growth Bootcamp Collections", "price": 50.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-7.png", "desc": "A collection of five books used throughout the 90 days of the Spiritual Growth Bootcamp, to help you build a stronger, more consistent walk with Christ."}, {"sku": "ebook-school-of-spiritual-growth", "title": "School of Spiritual Growth", "price": 19.99, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/6.png", "desc": ""}, {"sku": "ebook-rethinking-spiritual-warfare", "title": "Rethinking Spiritual Warfare", "price": 10.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/3.png", "desc": ""}, {"sku": "ebook-365-days-scripture-adventure", "title": "365 Days of Scripture Adventure", "price": 10.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/4.png", "desc": ""}, {"sku": "ebook-a-tongue-on-fire", "title": "A Tongue on Fire", "price": 6.99, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/1.png", "desc": ""}, {"sku": "ebook-sweet-fellowship-of-the-spirit", "title": "The Sweet Fellowship of the Spirit", "price": 10.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/2.png", "desc": ""}, {"sku": "ebook-i-write-to-you", "title": "I Write to You", "price": 4.99, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/9.png", "desc": ""}, {"sku": "ebook-running-with-the-horses", "title": "Running With the Horses", "price": 15.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-5.png", "desc": ""}, {"sku": "ebook-priesthood-of-the-believer", "title": "Priesthood of the Believer", "price": 6.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-1.png", "desc": ""}, {"sku": "ebook-by-faith-conquering-kingdoms", "title": "By Faith Conquering Kingdoms", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-2.png", "desc": ""}, {"sku": "ebook-listen", "title": "Listen: How to Hear God in a Noisy World", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-3.png", "desc": ""}, {"sku": "ebook-a-heart-on-fire", "title": "A Heart on Fire", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-6.png", "desc": ""}, {"sku": "ebook-gods-men", "title": "God's Men", "price": 9.0, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-4.png", "desc": ""}, {"sku": "ebook-pray-until-something-happens", "title": "Pray Until Something Happens", "price": 10.0, "cover": "/assets/covers/pray-until-something-happens.jpg", "desc": "A 40 day devotional on prayer."}, {"sku": "ebook-saved", "title": "Saved: Understanding God's Greatest Gift", "price": 10.0, "cover": "/assets/covers/saved.jpg", "desc": "Understanding God's greatest gift."}];</script>
+<script src="/assets/sgc.js?v=3"></script>
+<script>window.SGC_BOOKS=[{"sku": "ebook-refuse-to-be-gods-grandchild", "title": "Refuse to Be God's Grandchild", "tagline": "Stepping Past the Outer Courts into Direct Access and Unhindered Intimacy", "blurb": ["A grandchild learns about family history second-hand and visits only on special occasions. Tragically, many sincere Christians relate to God the exact same way: standing far off and depending on human go-betweens to hear from heaven on their behalf. In Refuse to Be God\u2019s Grandchild, Tayo Alofun issues a stirring call to reclaim your God-given identity as a priest with direct, unhindered access to the Father through the finished work of Jesus Christ.", "Tracing the grand story of redemption from the fearful slopes of Mount Sinai to the torn curtain of Mount Zion, this book demystifies the Tabernacle, the Levitical sacrifices, and the Old Testament feasts. Alofun shows how every detail of ancient worship points directly to Jesus and reveals your personal spiritual calling. You will learn how to tend the internal temple of your spirit, soul, and body, offer true spiritual sacrifices, and exercise your priestly responsibility to discern, teach, and bless the world around you.", "Stop sitting in the outer courts as a spectator when you have been crowned and consecrated to enter the Most Holy Place. Refuse to Be God\u2019s Grandchild will inspire you to step boldly through the open door of grace, cultivate profound daily fellowship with God, and live with the authority, dignity, and purpose of a true royal priest."], "cta": "Claim Your Direct Access: Buy Now", "price": 5, "print_price": 15, "amazon": null, "cover": "/assets/covers/refuse-to-be-gods-grandchild.jpg", "file": "ebook-Refuse-to-be-gods-grandchild.pdf"}, {"sku": "ebook-bootcamp-collections", "title": "Spiritual Growth Bootcamp Collections", "tagline": "Five books for the 90-day Bootcamp", "blurb": ["A collection of five books used throughout the 90 days of the Spiritual Growth Bootcamp, to help you build a stronger, more consistent walk with Christ."], "cta": "", "price": 50, "print_price": null, "amazon": null, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-7.png", "file": "ebook-bootcamp-collections.pdf"}, {"sku": "ebook-school-of-spiritual-growth", "title": "School of Spiritual Growth", "tagline": "A 90-Day Journey from Surface-Level Faith to Sustained Intimacy", "blurb": ["Too many believers experience spiritual growth in brief, intense bursts, only to crash into frustration, dryness, or inconsistency. School of Spiritual Growth was written to break that cycle by offering a deliberate, progressive 90-day roadmap toward sustainable Christian maturity. Designed for those who refuse to settle for surface-level religion, this devotional prioritizes formation over performance, intimacy over noise, and steady daily obedience over temporary emotional impulses.", "Drawing from relatable real-life parables (such as the gradual, structured lessons of a child\u2019s swimming school) and deep biblical exposition, this 90-day devotional guides you step-by-step through the core fundamentals of faith. Across twelve comprehensive modules, you will master effective Bible study, build a vibrant prayer life, understand fasting, discern divine direction, navigate spiritual warfare, exercise spiritual gifts, and cultivate financial stewardship, all while learning to abide continuously in God's presence.", "Whether you are a working professional, a ministry leader, or a sincere seeker longing for depth, School of Spiritual Growth provides the structure and spiritual support you need to thrive. Commit ninety days to this transformative guide, and build an unshakable foundation that will steady your walk, deepen your appetite for God, and transform your daily life forever."], "cta": "Begin Your 90-Day Journey Now", "price": 10, "print_price": 20, "amazon": null, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/6.png", "file": "ebook-school-of-spiritual-growth.pdf"}, {"sku": "ebook-pray-until-something-happens", "title": "Pray Until Something Happens", "tagline": "Relentless Intercession and the Breakthrough Power of Unwavering Faith", "blurb": ["Why do some prayers receive immediate answers while others require months or years of persistent crying out? In Pray Until Something Happens, Tayo Alofun presents a transformative 40-day teaching guide that invites believers into the deep, relentless posture of Jesus's parable of the persistent widow. Prayer is not a transactional request; it is the spiritual engine that generates power and shifts circumstances over time.", "Structured into forty daily lessons, this devotional guide unpacks the mechanics of prevailing prayer, intercessory endurance, and standing on God's promises in the face of silence or delay. Alofun blends scriptural exposition with practical prayer exercises, showing how sustained communion with God builds spiritual stamina, defeats demonic opposition, and aligns earthly reality with heaven's decrees.", "Perfect for individual devotionals, church-wide prayer campaigns, or small group intercession teams, this book will revitalize your prayer altar. Learn how to transition from occasional, routine petitions into a dynamic, expectant prayer life that refuses to quit until the answer comes."], "cta": "Start the 40-Day Prayer Journey", "price": 5, "print_price": 15, "amazon": "https://www.amazon.ca/dp/B0HPSG3QTP", "cover": "/assets/covers/pray-until-something-happens.jpg", "file": "ebook-pray-until-something-happens.pdf"}, {"sku": "ebook-a-tongue-on-fire", "title": "A Tongue on Fire", "tagline": "Unlocking the Mystery, Power, and Purpose of Spirit-Led Utterance", "blurb": ["Few topics in modern church history have sparked as much passion, debate, or misunderstanding as the spiritual gift of speaking in tongues. Is it a historical anomaly or a vibrant, ongoing promise for every believer? In A Tongue on Fire, Tayo Alofun cuts through theological confusion and cultural skepticism to deliver a biblically grounded, balanced, and illuminating exploration of this sacred gift.", "Moving systematically through Old Testament shadows, Pentecostal fulfillment, and Pauline instruction in 1 Corinthians, this book examines both the personal prayer language and the public manifestation of tongues. Alofun addresses common objections, clarifies misconceptions, and reveals how praying in the Spirit builds inner spiritual strength, accesses divine wisdom, and ignites a deeper passion for Christ.", "Practical, pastoral, and spiritually invigorating, A Tongue on Fire serves as an essential roadmap for anyone longing to expand their prayer life and experience the Holy Spirit's transforming power. Discover how welcoming this heavenly language can set your spiritual life ablaze and align your heart with the mind of God."], "cta": "Ignite Your Prayer Life", "price": 5, "print_price": 15, "amazon": "https://www.amazon.ca/dp/B0GDCTBRKJ", "cover": "/assets/covers/a-tongue-on-fire.jpg", "file": "ebook-a-tongue-on-fire.pdf"}, {"sku": "ebook-saved", "title": "Saved: Understanding God's Greatest Gift", "tagline": "Understanding God's greatest gift", "blurb": ["Understanding God's greatest gift."], "cta": "", "price": 5, "print_price": 15, "amazon": "https://www.amazon.ca/dp/B0GWRJNFLF", "cover": "/assets/covers/saved.jpg", "file": "ebook-saved.pdf"}, {"sku": "ebook-james-faith-that-works", "title": "James: Faith That Works", "tagline": "A comprehensive Bible study on the Book of James", "blurb": ["A comprehensive Bible study on the Book of James, part of the Pastoral Epistles series."], "cta": "", "price": 5, "print_price": 15, "amazon": null, "cover": "/assets/covers/james-faith-that-works.jpg", "file": "ebook-Faith-That-Works-James-Bible-Study.pdf"}, {"sku": "ebook-1-timothy-study", "title": "1 Timothy: Fight the Good Fight", "tagline": "Ordering the Household of God and Guarding the Gospel", "blurb": ["Written from Macedonia during a time of mounting urgency, First Timothy is Paul's direct, affectionate, and deeply practical manual to his young prot\u00e9g\u00e9, Timothy. Facing false teachers, speculative controversies, and administrative disorder in the key city of Ephesus, Timothy was called to stand firm. Fight the Good Fight opens up this timeless epistle to guide modern believers through the essential principles of church leadership, congregational prayer, and unwavering commitment to apostolic truth.", "Through clear verse-by-verse commentary, historical context, and thought-provoking discussion questions, Tayo Alofun demonstrates that sound doctrine is never merely intellectual: it must always issue in love from a pure heart, a good conscience, and a sincere faith. Readers will explore the qualifications for elders and deacons, the proper use of God's law, the danger of greed, and the supreme call to live worthy of the gospel in every sphere of life.", "Whether you are studying individually or leading a small group, this comprehensive Bible study offers practical tools and application challenges to help you guard the treasure of the gospel. Discover how to order your life and local church around the truth of Christ, resist subtle compromises, and wage the good warfare with courage, wisdom, and grace."], "cta": "Get the Study Guide", "price": 5, "print_price": 15, "amazon": null, "cover": "/assets/covers/1-timothy.jpg", "file": "ebook-1-timothy-study.pdf"}, {"sku": "ebook-2-timothy-study", "title": "2 Timothy: Guard the Deposit", "tagline": "Unashamed Faithfulness in the Shadow of the Executioner's Block", "blurb": ["Written from a cold Roman dungeon in AD 67 shortly before his execution under Nero, Second Timothy is the apostle Paul\u2019s final letter: a poignant, fire-filled charge to his beloved child in ministry. Amid widespread desertion and mounting cultural hostility, Paul calls Timothy to refuse shame, fan into flame the spiritual gifts within him, and remain steadfast in the face of suffering. Guard the Deposit leads readers into the deep emotional and theological weight of Paul's parting words.", "With rich commentary on key biblical metaphors (the soldier, the athlete, and the hardworking farmer) Tayo Alofun unfolds Paul's call to endurance and personal discipline. The study highlights the absolute sufficiency of God's breathed-out Scripture, equipping believers to confront dangerous times, false teachings, and personal doubts by anchoring their souls in the unshakeable character of God.", "Designed for deep personal reflection and small group engagement, this guide includes verse-by-verse breakdowns, memory verses, and weekly application challenges. Step into Paul's prison cell and discover how to guard the good deposit entrusted to you, finish your race with joy, and stand unashamed as a worker approved by God."], "cta": "Guard the Faith Today", "price": 5, "print_price": 15, "amazon": null, "cover": "/assets/covers/2-timothy.jpg", "file": "ebook-2-timothy-study.pdf"}, {"sku": "ebook-a-prisoner-of-christ", "title": "A Prisoner of Christ", "tagline": "Discovering Unshakeable Freedom and Cosmic Victory in Chains", "blurb": ["Under Roman house arrest awaiting trial before Caesar, Paul wrote four letter-masterpieces that have echoed through two millennia: Ephesians, Philippians, Colossians, and Philemon. Though bound by physical chains, Paul saw himself primarily as a \"prisoner of Christ\": one whose life, joy, and citizenship were anchored far above the earthly empire. A Prisoner of Christ provides an exhaustive, multi-part study that unpacks the profound theology and practical power of these Prison Epistles.", "Tayo Alofun expertly guides readers across the grand vistas of Ephesians' cosmic redemption, Philippians' defiant joy, Colossians' preeminent Christ, and Philemon's radical gospel reconciliation. Each chapter bridges high-altitude doctrine with ground-level duty, showing how the reality of our inheritance in Christ reshapes daily relationships, household integrity, workplace ethics, and spiritual warfare.", "Complete with historical timelines, word spotlights, theological reflections, and tiered discussion questions, this guide is built for individual enrichment or church-wide small groups. Learn what it means to sit in heavenly places, walk worthy of your calling, and experience a freedom that no circumstance or chain can ever touch."], "cta": "Explore the Prison Epistles", "price": 5, "print_price": 15, "amazon": null, "cover": "/assets/covers/a-prisoner-of-christ.jpg", "file": "ebook-a-prisoner-of-christ.pdf"}, {"sku": "ebook-rethinking-spiritual-warfare", "title": "Rethinking Spiritual Warfare", "tagline": "Shifting from Spectacle to Substance and Fighting from Victory", "blurb": ["In a modern church culture often dominated by loud formulas, external aggression, and dramatic spectacle, Rethinking Spiritual Warfare brings a much-needed, biblically grounded breath of fresh air. Tayo Alofun reframes the unseen battle by reminding us of a fundamental truth: God\u2019s strategy for victory always begins with the formation of people, not the deployment of techniques. Before God confronts principalities and powers, He confronts human hearts; before authority is exercised, character must be forged.", "With razor-sharp clarity and pastoral wisdom, this book exposes the \"evil trinity\" (Satan, the unredeemed flesh, and the worldly system) and unpacks the strategic necessity of holiness, unity, love, and truth. Unveiling the full armor of God in Ephesians 6, Alofun demonstrates that you do not fight for victory through fear or frantic activity; rather, you stand firm and fight from the decisive victory Christ already secured at the cross.", "If you are tired of noise without power and activity without lasting transformation, Rethinking Spiritual Warfare will equip you to become a polished, effective weapon in the Master\u2019s hands. Discover how a life yielded in obedience and grounded in Christ\u2019s authority can overcome every scheme of the adversary with quiet, unshakable confidence."], "cta": "Equip Yourself Today: Order the Book", "price": 5, "print_price": 15, "amazon": null, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/3.png", "file": "ebook-rethinking-spiritual-warfare.pdf"}, {"sku": "ebook-sweet-fellowship-of-the-spirit", "title": "The Sweet Fellowship of the Spirit", "tagline": "Cultivating Daily Communion, Sensitivity, and Abiding Presence", "blurb": ["The Holy Spirit is not a distant theological influence or an abstract force; He is a divine Person who longs for deep, daily fellowship with you. In The Sweet Fellowship of the Spirit, Tayo Alofun offers a warm, inviting 40-day devotional journey designed to help believers step past outer-court Christianity and enter into constant, intimate communion with the third Person of the Trinity.", "Each day\u2019s reading explores a distinct dimension of the Spirit\u2019s ministry, as Comforter, Counselor, Teacher, Sanctifier, and Guide. Through scripture meditation, practical reflection, and heart-centered prayers, Alofun teaches how to tune your ear to the subtle voice of the Spirit, yield to His quiet promptings, and cultivate a quiet, abiding sense of His presence in the midst of life's busyness.", "Whether you are seeking spiritual renewal, clearer direction, or a deeper experiential knowledge of God, this 40-day guide will transform your daily walk. Open your heart to the sweet fellowship of the Spirit and experience the joy, peace, and supernatural empowerment that flow from walking hand-in-hand with God every single day."], "cta": "Begin Your Devotional Walk", "price": 5, "print_price": 15, "amazon": null, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/2.png", "file": "ebook-sweet-fellowship-of-the-spirit.pdf"}, {"sku": "ebook-365-days-scripture-adventure", "title": "365 Days of Scripture Adventure", "tagline": "A Daily Journey of Reflection, Memory, and Transformation for All Ages", "blurb": ["In a world filled with constant noise and distraction, anchoring yourself and your family in timeless truth is more vital than ever. 365 Days of Scripture Adventure is an inviting daily companion designed to help readers of all ages build a lasting habit of hiding God\u2019s Word in their hearts. Originally conceived as a father\u2019s heartfelt gift to his growing son, this devotional journey offers one carefully chosen Bible verse for every single day of the year, creating a steady rhythm of spiritual growth and peaceful reflection.", "Each day\u2019s entry provides a simple, accessible breakdown structured into three essential parts: a foundational Bible verse to reflect on and memorize, a clear explanation of what the Scripture means, and a practical personal application for daily life. Rather than serving as a rigid reading plan or a daunting academic study, this book offers a living invitation to engage with God\u2019s Word one day at a time, making it an ideal tool for family discipleship, personal devotions, or Scripture memory practice.", "Whether you are a parent seeking to instill a strong spiritual foundation in your children, or an individual longing for daily direction, clarity, and peace, 365 Days of Scripture Adventure will become your compass and anchor. Step into a transformative journey of faith and discover how just a few intentional moments in Scripture each day can shape your heart, guard your mind, and illuminate your path for years to come."], "cta": "Order Your Copy & Start the Adventure", "price": 5, "print_price": 15, "amazon": null, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/4.png", "file": "ebook-365-days-scripture-adventure.pdf"}, {"sku": "ebook-gods-men", "title": "God's Men", "tagline": "Six Defining Qualities of Men Whom God Trusts with His Purposes", "blurb": ["In an era overflowing with leadership programs, platforms, and methods, heaven is still searching for something far more vital: men of godly character. Drawing from Ezekiel 22:30 (where God sought for a man to stand in the gap), God's Men cuts through organizational noise to reveal that the ultimate solution to moral, familial, and societal breakdown is personal transformation.", "Tayo Alofun examines six defining characteristics found in the lives of biblical figures like Daniel, Nehemiah, Joseph, Abraham, and Paul: unwavering conviction, relentless prayer, tamed appetites, radical faith, and disciplined skill. Contrasting tragic failures like Samson with victorious lives of self-governance, Alofun demonstrates how self-mastery and spiritual authority are forged in the quiet, hidden places of daily discipline.", "Inspiring and uncompromising, God's Men is a clarion call to every man who refuses to settle for passive or superficial Christianity. Whether read individually or as part of a men's ministry study, this manuscript provides a practical, biblically anchored blueprint to help you stand firm, govern your soul, and become a trusted instrument in God's hands."], "cta": "Become a Man of Character", "price": 0, "print_price": 10, "amazon": null, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/Ebook-Cover-Mustard-Seed-4.png", "file": "ebook-gods-men.pdf"}, {"sku": "ebook-i-write-to-you", "title": "I Write to You", "tagline": "Hearing the Risen Savior\u2019s Heart in the Seven Letters of Revelation", "blurb": ["What if the risen, glorified Christ walked into your church or sat down in your living room today to deliver a letter written specifically for you? In I Write to You, Tayo Alofun uncovers the staggering intimacy and urgent relevance of Jesus\u2019 seven personal letters to the churches in Revelation. Written for every Christian who has ever settled into comfortable, fireless routine, this book bridges ancient history and contemporary living to reveal a Lord who knows you completely, loves you honestly, and refuses to leave you where you are.", "With deep pastoral sensitivity and vivid historical insights, Alofun walks readers through the vibrant cities of Asia Minor: from Ephesus\u2019s loss of first love to Laodicea\u2019s lukewarm self-sufficiency. Rather than treating Revelation as a confusing prophecy or distant theology, I Write to You treats these letters as fresh, living correspondence. You will confront spiritual drift, discover the courage to endure in seasons of suffering, and learn how to align your heart once again with the heartbeat of heaven.", "If you are hungry to move past hollow performance and rekindle a burning, authentic passion for Jesus Christ, this book is your wake-up call. Open these pages to encounter the One who walks among the lampstands, and listen closely to what the Spirit is saying to your heart today. Your personal letter is waiting, are you ready to hear it?"], "cta": "Hear the Letters: Get Your Copy Today", "price": 0, "print_price": 10, "amazon": null, "cover": "https://mustardseed.com.ng/wp-content/uploads/2025/12/9.png", "file": "ebook-I-Write-To-You.pdf"}];</script>
 <script>
 (function(){
   var B=window.SGC_BOOKS, by={}; B.forEach(function(b){by[b.sku]=b;});
   var KEY='sgc_cart', cart=[];
-  try{ cart=(JSON.parse(localStorage.getItem(KEY)||'[]')||[]).filter(function(s){return by[s];}); }catch(e){ cart=[]; }
+  try{ cart=(JSON.parse(localStorage.getItem(KEY)||'[]')||[]).filter(function(s){return by[s]&&by[s].price>0;}); }catch(e){ cart=[]; }
   function save(){ try{ localStorage.setItem(KEY,JSON.stringify(cart)); }catch(e){} }
   function money(n){ return '$'+n.toFixed(2); }
   function esc(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
   var grid=document.getElementById('books');
+  function priceTxt(b){ return b.price>0 ? money(b.price) : '<span class="free">Free</span>'; }
+  function printTxt(b,long){
+    if(!b.print_price) return '';
+    var p='Paperback $'+b.print_price;
+    return b.amazon ? p+' &middot; <a href="'+b.amazon+'" target="_blank" rel="noopener">'+(long?'Buy on Amazon':'Amazon')+'</a>' : p+' &middot; coming soon';
+  }
+  function actBtn(b,big){ return b.price>0
+      ? '<button class="'+(big?'btn btn-red':'add')+'" data-add="'+b.sku+'">'+(big?'Add to cart':'Add')+'</button>'
+      : '<button class="'+(big?'btn btn-red':'add')+'" data-free="'+b.sku+'">'+(big?'Download free':'Get free')+'</button>'; }
   grid.innerHTML=B.map(function(b,i){
-    return '<article class="book rv'+(i%4?' d'+(i%4>3?3:i%4):'')+'"><div class="cover"><img loading="lazy" src="'+b.cover+'" alt="Cover of '+esc(b.title)+'" width="300" height="450"></div>'+
-      '<h3>'+esc(b.title)+'</h3><div class="row"><span class="p">'+money(b.price)+'</span><button class="add" data-add="'+b.sku+'">Add</button></div></article>';
+    return '<article class="book rv'+(i%4?' d'+(i%4>3?3:i%4):'')+'"><div class="cover" data-info="'+b.sku+'" role="button" tabindex="0" aria-label="About '+esc(b.title)+'"><img loading="lazy" src="'+b.cover+'" alt="Cover of '+esc(b.title)+'" width="300" height="450"></div>'+
+      '<h3 data-info="'+b.sku+'">'+esc(b.title)+'</h3><p class="tag">'+esc(b.tagline)+'</p>'+(b.print_price?'<p class="print">'+printTxt(b)+'</p>':'')+
+      '<div class="row"><span class="p">'+priceTxt(b)+'</span>'+actBtn(b)+'</div><button class="more" data-info="'+b.sku+'">Read description</button></article>';
   }).join('');
   if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
     var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target);}});});
@@ -207,11 +358,42 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
     document.getElementById('cartTotal').textContent=money(t);
     document.getElementById('checkoutBtn').disabled=!cart.length;
   }
+  // Book details and free download
+  var info=document.getElementById('info'), freeM=document.getElementById('freeM'), lastFocus=null, freeSku='';
+  function show(m,o){ if(o){lastFocus=document.activeElement;} m.classList.toggle('on',o); document.body.style.overflow=o?'hidden':''; if(o){ var x=m.querySelector('.x'); if(x) x.focus(); } else if(lastFocus&&lastFocus.focus){ lastFocus.focus(); } }
+  function openInfo(s){ var b=by[s]; if(!b) return;
+    document.getElementById('mImg').src=b.cover; document.getElementById('mImg').alt='Cover of '+b.title;
+    document.getElementById('mTitle').textContent=b.title; document.getElementById('mTag').textContent=b.tagline;
+    document.getElementById('mBlurb').innerHTML=b.blurb.map(function(p){return '<p>'+esc(p)+'</p>';}).join('');
+    document.getElementById('mBuy').innerHTML='<span class="amt">'+(b.price>0?money(b.price):'Free')+'</span>'+actBtn(b,true);
+    document.getElementById('mPrint').innerHTML=printTxt(b,true);
+    render(); show(info,true); }
+  function openFree(s){ var b=by[s]; freeSku=s; if(info.classList.contains('on')) show(info,false);
+    document.getElementById('fTitle').textContent=b.title; document.getElementById('freeForm').hidden=false;
+    document.getElementById('fOk').hidden=true; document.getElementById('fErr').hidden=true; show(freeM,true); setTimeout(function(){document.getElementById('fEmail').focus();},50); }
+  document.getElementById('freeForm').addEventListener('submit',function(e){
+    e.preventDefault(); var f=this, err=document.getElementById('fErr'), btn=document.getElementById('fBtn');
+    var email=f.email.value.trim(); err.hidden=true;
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ err.textContent='Please enter a valid email address.'; err.hidden=false; return; }
+    btn.classList.add('busy');
+    fetch('/api/free-book.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sku:freeSku,email:email,firstname:f.firstname.value.trim(),website:f.website.value})})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(d){return {ok:r.ok,d:d};});})
+      .then(function(res){ btn.classList.remove('busy');
+        if(res.ok&&res.d.ok){ f.hidden=true; var ok=document.getElementById('fOk'); ok.textContent='Sent! Check '+email+' for your download link. If it is not there in a few minutes, look in spam or promotions.'; ok.hidden=false; }
+        else { err.textContent=res.d.error||'Something went wrong. Please try again.'; err.hidden=false; } })
+      .catch(function(){ btn.classList.remove('busy'); err.textContent='We could not reach the server. Check your connection and try again.'; err.hidden=false; });
+  });
+  document.addEventListener('keydown',function(e){ if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.cover[data-info]')){ e.preventDefault(); openInfo(e.target.getAttribute('data-info')); } });
+
   document.addEventListener('click',function(e){
+    var c=e.target.closest('[data-close]'); if(c){ show(c.closest('.modal'),false); return; }
+    var inf=e.target.closest('[data-info]'); if(inf){ openInfo(inf.getAttribute('data-info')); return; }
+    var fr=e.target.closest('[data-free]'); if(fr){ openFree(fr.getAttribute('data-free')); return; }
     var a=e.target.closest('[data-add]');
     if(a){ var s=a.getAttribute('data-add');
       if(cart.indexOf(s)<0){ cart.push(s); save(); render(); btn.classList.remove('bump'); void btn.offsetWidth; btn.classList.add('bump'); }
       else open(true);
+      if(a.closest('#info')) show(info,false);
     }
     var r=e.target.closest('[data-rm]');
     if(r){ cart=cart.filter(function(s){return s!==r.getAttribute('data-rm');}); save(); render(); }
@@ -221,7 +403,7 @@ body.cart-open .scrim{opacity:1;visibility:visible} body.cart-open .drawer{trans
   btn.addEventListener('click',function(){open(true);});
   document.getElementById('closeCart').addEventListener('click',function(){open(false);});
   document.getElementById('scrim').addEventListener('click',function(){open(false);});
-  addEventListener('keydown',function(e){ if(e.key==='Escape') open(false); });
+  addEventListener('keydown',function(e){ if(e.key==='Escape'){ open(false); if(info.classList.contains('on')) show(info,false); if(freeM.classList.contains('on')) show(freeM,false); } });
   document.getElementById('checkoutBtn').addEventListener('click',function(){
     SGC_startCheckout('/api/checkout.php',{items:cart.map(function(s){return {sku:s,quantity:1};})},this,document.getElementById('cartError'));
   });

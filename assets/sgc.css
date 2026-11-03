@@ -118,3 +118,6 @@ select.in{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
   .rv.pre{opacity:1;transform:none}
 }
+
+/* keep the tilted marquee and glows from causing sideways scroll */
+html,body{overflow-x:clip}

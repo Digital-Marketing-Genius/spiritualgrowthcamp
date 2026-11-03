@@ -2,6 +2,20 @@
 (function () {
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // Side menu (same as the homepage)
+  var smD = document.getElementById('smDrawer'), smO = document.getElementById('smOpen');
+  if (smD && smO) {
+    var setMenu = function (o) {
+      document.body.classList.toggle('sm-open', o); smD.setAttribute('aria-hidden', !o); smO.setAttribute('aria-expanded', o);
+      if (o) document.getElementById('smClose').focus(); else smO.focus();
+    };
+    smO.addEventListener('click', function () { setMenu(true); });
+    document.getElementById('smClose').addEventListener('click', function () { setMenu(false); });
+    document.getElementById('smScrim').addEventListener('click', function () { setMenu(false); });
+    smD.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { setMenu(false); }); });
+    addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.body.classList.contains('sm-open')) setMenu(false); });
+  }
+
   // Marquee of the five pillars
   var track = document.querySelector('.track');
   if (track) {

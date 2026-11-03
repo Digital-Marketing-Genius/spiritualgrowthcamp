@@ -53,11 +53,23 @@ try {
         $sku = is_array($row) ? (string)($row['sku'] ?? '') : '';
         $item = sgc_item($sku);
         if (!$item || $item['kind'] !== 'ebook') sgc_json(['error' => 'One of the books in your cart is no longer available. Please refresh the page.'], 400);
+        if ((int)$item['amount'] <= 0) continue; // free books are downloaded from the bookstore, not bought
         if (isset($skus[$sku])) continue;        // an ebook only needs to be bought once
         $skus[$sku] = true;
-        $lineItems[] = ['price' => $item['price'], 'quantity' => 1];
+        $lineItems[] = ['quantity' => 1, 'price_data' => [
+            'currency' => 'usd',
+            'unit_amount' => (int)$item['amount'],
+            'tax_behavior' => 'exclusive',
+            'product_data' => [
+                'name' => $item['name'] . ' (ebook)',
+                'images' => [$item['image']],
+                'tax_code' => 'txcd_10302000',
+                'metadata' => ['sku' => $sku, 'kind' => 'ebook'],
+            ],
+        ]];
     }
 
+    if (!$lineItems) sgc_json(['error' => 'Free books are downloaded with the "Download free" button, not through checkout.'], 400);
     $session = stripe_request('POST', 'checkout/sessions', sgc_checkout_params([
         'mode' => 'payment',
         'customer_creation' => 'always',
