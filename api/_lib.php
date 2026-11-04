@@ -331,6 +331,24 @@ function sgc_http_json(string $method, string $url, string $bearer, ?array $body
     return ['ok' => $status >= 200 && $status < 300, 'status' => $status, 'data' => json_decode($raw, true), 'raw' => (string)$raw];
 }
 
+/** Find a Sender group id by its title (case-insensitive). Cached for 6 hours. */
+function sgc_sender_group_by_title(string $title): ?string {
+    $cfg = sgc_config();
+    if (empty($cfg['sender_api_token'])) return null;
+    $cache = sgc_load('sender', 'groups');
+    if (!$cache || ($cache['at'] ?? 0) < time() - 21600 || !isset($cache['map'][strtolower($title)])) {
+        $map = [];
+        for ($page = 1; $page <= 5; $page++) {
+            $r = sgc_http_json('GET', 'https://api.sender.net/v2/groups?limit=100&page=' . $page, $cfg['sender_api_token']);
+            if (!$r['ok']) break;
+            foreach ($r['data']['data'] ?? [] as $g) if (!empty($g['id'])) $map[strtolower(trim((string)($g['title'] ?? '')))] = (string)$g['id'];
+            if (count($r['data']['data'] ?? []) < 100) break;
+        }
+        if ($map) { $cache = ['at' => time(), 'map' => $map]; sgc_save('sender', 'groups', $cache); }
+    }
+    return $cache['map'][strtolower($title)] ?? null;
+}
+
 /* ------------------------------------------------------------------ cohorts */
 
 /**
