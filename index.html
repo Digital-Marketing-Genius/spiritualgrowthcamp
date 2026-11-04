@@ -81,7 +81,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .logo{display:flex;align-items:center;gap:10px;line-height:1}
 .logo svg{width:30px;height:30px;flex:none}
 .logo b{display:block;font-weight:600;font-size:15px;letter-spacing:-.01em}
-.logo small{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.18em;color:var(--faint);text-transform:uppercase;margin-top:3px}
+.logo small{display:block;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.18em;color:var(--faint);text-transform:uppercase;margin:0 0 4px}
 .hdr-nav{display:flex;align-items:center;gap:6px}
 .hdr-nav a.ico{display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:999px;font-family:var(--f-mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);transition:color .2s,background .2s}
 .hdr-nav a.ico:hover{color:var(--paper);background:rgba(242,239,233,.06)}
@@ -424,7 +424,7 @@ body.loading .hero-in>*{animation-play-state:paused}
    <button class="burger" id="openMenu" aria-label="Open menu" aria-controls="drawer" aria-expanded="false"><span></span></button>
    <a href="#top" class="logo" aria-label="School of Spiritual Growth home">
     <svg><use href="#i-seed"/></svg>
-    <span><b>Spiritual Growth</b><small>School of</small></span>
+    <span><small>School of</small><b>Spiritual Growth</b></span>
    </a>
   </div>
   <nav class="hdr-nav" aria-label="Quick links">
@@ -440,7 +440,7 @@ body.loading .hero-in>*{animation-play-state:paused}
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="Site menu" aria-hidden="true">
  <div class="d-top">
-  <a href="#top" class="logo"><svg><use href="#i-seed"/></svg><span><b>Spiritual Growth</b><small>School of</small></span></a>
+  <a href="#top" class="logo"><svg><use href="#i-seed"/></svg><span><small>School of</small><b>Spiritual Growth</b></span></a>
   <button class="d-close" id="closeMenu" aria-label="Close menu"><svg><use href="#i-x"/></svg></button>
  </div>
  <div class="d-body">
