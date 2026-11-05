@@ -1,0 +1,35 @@
+/* School of Spiritual Growth brand layer for Through the Bible.
+   Loaded after styles.css. Matches spiritualgrowthcamp.com: ink #050A14, crimson #C21B1B,
+   paper #F2EFE9, Inter Tight (interface), Playfair Display (headings), JetBrains Mono (labels). */
+:root{--bg:#F2EFE9;--paper:#fff;--ink:#14181F;--muted:#626873;--line:#E3DED3;--accent:#C21B1B;--accent-soft:#F7E4E1;--gold:#C21B1B;--nav:#050A14;
+  font-family:"Inter Tight","Helvetica Neue",Arial,sans-serif}
+body.dark{--bg:#050A14;--paper:#0F1727;--ink:#F2EFE9;--muted:#A3A9B4;--line:#1F2A3D;--accent:#E33A2C;--accent-soft:#2A1416;--gold:#E33A2C}
+h1,h2,h3{letter-spacing:-.015em}
+/* sidebar brand */
+.brand{align-items:center;font:600 21px/1.1 "Inter Tight","Helvetica Neue",Arial,sans-serif;letter-spacing:-.02em;gap:12px}
+.brand-seed{width:34px;height:34px;flex:none}
+.byline{font:400 9.5px/1.4 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.16em;margin-top:6px;color:rgba(242,239,233,.45)}
+.nav-caption,.eyebrow,.section-label,.chapter-hero .eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;letter-spacing:.14em}
+.nav-button[aria-current="page"],.nav-button.active{background:rgba(194,27,27,.18);color:#fff}
+.sidebar-bottom .seed{font:600 15px/1.2 "Inter Tight",sans-serif;letter-spacing:-.01em}
+.sidebar-bottom .seed a{color:inherit}
+.sidebar-bottom .seed span{font-family:"JetBrains Mono",monospace;letter-spacing:.14em;color:#E33A2C}
+/* hero card */
+.chapter-hero{background:radial-gradient(ellipse at 85% 0%,rgba(194,27,27,.55),transparent 55%),#050A14;color:#F2EFE9}
+.chapter-hero .eyebrow{color:#E33A2C}
+/* greens become brand */
+.week button.done{background:#C21B1B;border-color:#C21B1B}
+.chapter-row.active .chapter-index{background:#050A14;border-color:#050A14}
+.chapter-tile.done{background:#F7E4E1;border-color:#E3A9A2}
+.complete-banner{border-color:#E3A9A2;background:#FBEFEC}
+body.dark .complete-banner{background:#1C1013;border-color:#5A2226}
+.toast{background:#050A14}
+body.dark .primary{background:#C21B1B;border-color:#C21B1B}
+.primary{border-radius:999px}
+@media(max-width:700px){.mobile-brand{display:flex!important;align-items:center;gap:10px;font:600 18px/1.1 "Inter Tight",sans-serif;letter-spacing:-.02em}}
+.mobile-brand .brand-seed{width:30px;height:30px}
+.mobile-brand small{font-family:"JetBrains Mono",monospace;font-weight:400;letter-spacing:.14em}
+.avatar{display:grid;place-items:center}
+.brand{font-size:19px}
+body.dark .chapter-row.active{background:#1A2234}
+body.dark .chapter-hero{background:radial-gradient(ellipse at 85% 0%,rgba(194,27,27,.5),transparent 55%),#0F1727;border:1px solid #1F2A3D}
