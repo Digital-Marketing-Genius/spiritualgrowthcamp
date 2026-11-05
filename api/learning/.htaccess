@@ -1,0 +1,9 @@
+# Pass the student's sign-in token (Authorization header) through to PHP.
+CGIPassAuth On
+RewriteEngine On
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+<FilesMatch "^_">
+  Require all denied
+</FilesMatch>
