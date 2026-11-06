@@ -33,3 +33,13 @@ body.dark .primary{background:#C21B1B;border-color:#C21B1B}
 .brand{font-size:19px}
 body.dark .chapter-row.active{background:#1A2234}
 body.dark .chapter-hero{background:radial-gradient(ellipse at 85% 0%,rgba(194,27,27,.5),transparent 55%),#0F1727;border:1px solid #1F2A3D}
+/* Welcome sign-up, membership intent and install card */
+.welcome-account{margin:18px 0 22px;padding:18px;border:1px solid var(--line);border-radius:10px;background:#faf8f4}
+.welcome-account input{width:100%;margin-top:6px}
+.welcome-account .notice{margin:8px 0 0;font-size:13px}
+.welcome-message:empty{display:none}.welcome-message{margin:10px 0 0;font-size:14px;color:var(--accent)}
+.welcome-skip{display:block;margin:16px auto 0}
+.intent-note{background:var(--accent-soft);border-left:3px solid #C21B1B;padding:10px 14px;border-radius:6px;font-size:14px;margin:0 0 14px}
+.install-card .primary{margin-top:6px}
+.locked-card h2{margin-top:6px}.locked-card .membership-prompt{margin:18px 0}
+.preview-tag[hidden]{display:none}

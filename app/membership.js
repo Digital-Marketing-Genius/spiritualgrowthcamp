@@ -7,6 +7,9 @@
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const active=()=>!!row&&ACTIVE.includes(row.status)&&(!row.current_period_end||new Date(row.current_period_end).getTime()>Date.now()-3*86400000);
  const fmt=d=>d?new Date(d).toLocaleDateString(undefined,{year:'numeric',month:'long',day:'numeric'}):'';
+ const INTENT='through-the-bible:intent';
+ const wantsCheckout=()=>{try{const v=JSON.parse(localStorage.getItem(INTENT)||'null');return !!v&&v.kind==='checkout'&&Date.now()-v.at<86400000;}catch{return false;}};
+ const setIntent=on=>{try{on?localStorage.setItem(INTENT,JSON.stringify({kind:'checkout',at:Date.now()})):localStorage.removeItem(INTENT);}catch{}};
  const rerender=()=>{try{window.TTB_APP&&TTB_APP.render();}catch{}};
  const say=m=>{const t=document.querySelector('#toast');if(!t)return;t.textContent=m;t.classList.add('visible');setTimeout(()=>t.classList.remove('visible'),5000);};
 
@@ -14,13 +17,21 @@
   const client=TTB_CLOUD.client,session=TTB_CLOUD.session;
   if(!client||!session){row=null;loaded=true;rerender();return;}
   const {data,error}=await client.from('memberships').select('status,current_period_end,cancel_at_period_end').eq('user_id',session.user.id).maybeSingle();
+  const was=active();
   if(error){problem='Your membership status could not be loaded.';}else{row=data;problem='';}
+  if(active()&&!was&&TTB_CLOUD.refreshContent)await TTB_CLOUD.refreshContent();
   loaded=true;rerender();
+  // Came back from the sign-in link after pressing "Continue my journey": go straight to payment.
+  if(session&&!error&&wantsCheckout()){setIntent(false);if(!active())open('checkout');}
  }
 
  async function open(kind,button){
   const session=TTB_CLOUD.session;
-  if(!session){say('Create a free account (or sign in) first, so your membership is linked to your journey.');document.querySelector('#signin-email')?.focus();return;}
+  if(!session){
+   if(kind==='checkout')setIntent(true);
+   if(location.hash!=='#profile')location.hash='#profile';else rerender();
+   setTimeout(()=>{document.querySelector('#signin-form')?.scrollIntoView({behavior:'smooth',block:'center'});document.querySelector('#signin-email')?.focus({preventScroll:true});},120);
+   say('Sign in or create your free account. We will take you straight to payment afterwards.');return;}
   busy=true;if(button)button.disabled=true;problem='';
   try{
    const res=await fetch(((window.TTB_CONFIG||{}).apiBase||'/api/app/')+kind+'.php',{method:'POST',headers:{Authorization:'Bearer '+session.access_token}});
@@ -44,9 +55,9 @@
  }
 
  // Shown under the "seven chapters complete" banner.
- function prompt(){
+ function prompt(next='Genesis 8'){
   if(!TTB_CLOUD.enabled||active())return '';
-  return `<div class="membership-prompt"><p><strong>Keep going with Genesis 8.</strong> Continue your journey through the whole Bible for $1 a month, billed $12 a year.</p><button class="primary" data-membership="checkout">Continue my journey</button></div>`;
+  return `<div class="membership-prompt"><p><strong>Keep going with ${esc(next)}.</strong> Continue your journey through the whole Bible for $1 a month, billed $12 a year.</p><button class="primary" data-membership="checkout">Continue my journey</button></div>`;
  }
 
  document.addEventListener('click',e=>{const el=e.target.closest('[data-membership]');if(!el||busy)return;e.preventDefault();open(el.dataset.membership,el);});
@@ -59,5 +70,5 @@
 
  function watch(){TTB_CLOUD.subscribe(()=>{const id=TTB_CLOUD.session?.user?.id||null;if(id!==uid){uid=id;loaded=false;row=null;refresh();}});}
  if(window.TTB_CLOUD)watch();
- window.TTB_MEMBERSHIP={panel,prompt,refresh,get active(){return active();},get loaded(){return loaded;}};
+ window.TTB_MEMBERSHIP={panel,prompt,refresh,get wantsCheckout(){return wantsCheckout();},get active(){return active();},get loaded(){return loaded;}};
 })();
